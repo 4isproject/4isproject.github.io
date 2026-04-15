@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Surf Life | Jacob Walton</title>
+  <link rel="stylesheet" href="surf-styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- TOP NAV -->
+  <div id="topnav">
+    <a href="index.html">&larr; Back to Portfolio</a>
+    <span id="nav-brand">Jacob Walton</span>
+    <a href="app.html">Surf Conditions App &rarr;</a>
+  </div>
+
+  <!-- HERO -->
+  <div id="hero">
+    <div id="hero-content">
+      <p id="hero-eyebrow">A Passion Page</p>
+      <h1 id="top">The Surf Life</h1>
+      <p id="hero-sub">Waves, locations, and why I can&apos;t stop chasing them.</p>
+      <a href="#my-story" class="hero-btn">Read My Story</a>
+    </div>
+  </div>
+
+  <!-- PAGE NAV (on-page anchors) -->
+  <div id="page-nav">
+    <a href="#my-story">My Story</a>
+    <a href="#spots">Favorite Spots</a>
+    <a href="#gear">Gear</a>
+    <a href="#video">Watch</a>
+    <a href="#markets">Markets</a>
+    <a href="#top">Top &uarr;</a>
+  </div>
+
+  <!-- MY STORY SECTION -->
+  <div id="my-story" class="content-section">
+    <h2 class="section-heading">My Story</h2>
+    <div class="section-rule"></div>
+
+    <div class="two-col">
+      <div class="col-text">
+        <p>
+          I grew up in San Diego — which means surfing wasn't really a choice,
+          it was just what you did on weekends. I caught my first real wave at
+          Ocean Beach when I was around twelve, wiped out immediately, and was
+          completely hooked.
+        </p>
+        <p>
+          Living in Hawaii for college changed everything. Suddenly I had access
+          to some of the most powerful, consistent surf on the planet. I went from
+          a weekend cruiser to someone who would wake up at 5am to check buoy
+          reports before class.
+        </p>
+        <p>
+          Since then, surfing has taken me to <strong>Costa Rica</strong> and
+          <strong>Bali</strong> — two places that completely reshaped how I think
+          about waves, travel, and what it means to be present in the water.
+          There is nothing that quiets your mind quite like a 6-foot set on
+          the horizon coming straight at you.
+        </p>
+        <!-- CTA button linking to portfolio -->
+        <a href="index.html" class="inline-btn">View My Portfolio &rarr;</a>
+      </div>
+
+      <div class="col-image">
+        <img
+          src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=600&q=80"
+          alt="Surfer riding a large wave"
+          class="surf-img">
+        <p class="img-caption">Pipeline, North Shore — where I want to be every morning.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAVORITE SPOTS SECTION -->
+  <div id="spots" class="content-section alt-section">
+    <h2 class="section-heading">Favorite Spots</h2>
+    <div class="section-rule"></div>
+
+    <p class="section-intro">
+      Four places, four completely different surfing experiences. Here is how
+      I would rank them and what makes each one special:
+    </p>
+
+    <!-- ORDERED LIST with embedded UNORDERED LIST -->
+    <ol class="spots-list">
+
+      <li>
+        <strong>Bali, Indonesia</strong>
+        <ul>
+          <li>Uluwatu is one of the most perfect left-handers on Earth</li>
+          <li>Warm water, consistent swell, and world-class barrels</li>
+          <li>Best season: May through September (dry season)</li>
+          <li>Watch out for: shallow reef, sea urchins, crowds at peak times</li>
+        </ul>
+      </li>
+
+      <li>
+        <strong>North Shore, Oahu, Hawaii</strong>
+        <ul>
+          <li>Pipeline, Sunset, Waimea — legendary breaks within a few miles</li>
+          <li>Winter swells from the North Pacific create monstrous waves</li>
+          <li>Best season: November through February</li>
+          <li>Watch out for: serious surf, not for beginners in winter</li>
+        </ul>
+      </li>
+
+      <li>
+        <strong>Nosara, Costa Rica</strong>
+        <ul>
+          <li>Playa Guiones is one of the most consistent beach breaks in Central America</li>
+          <li>Warm water, friendly locals, and a laid-back surf culture</li>
+          <li>Best season: April through October (rainy season = best swell)</li>
+          <li>Watch out for: rip currents when swell gets big</li>
+        </ul>
+      </li>
+
+      <li>
+        <strong>San Diego, California</strong>
+        <ul>
+          <li>Black's Beach, Ocean Beach, and Windansea are my home breaks</li>
+          <li>Year-round surfing with clean point breaks and beach breaks</li>
+          <li>Best season: Fall — Santa Ana winds create offshore conditions</li>
+          <li>Watch out for: cold water, wetsuit required most of the year</li>
+        </ul>
+      </li>
+
+    </ol>
+  </div>
+
+  <!-- GEAR SECTION -->
+  <div id="gear" class="content-section">
+    <h2 class="section-heading">What You Need to Get Started</h2>
+    <div class="section-rule"></div>
+
+    <div class="two-col">
+      <div class="col-text">
+        <p>
+          A lot of beginners overthink the gear. Here is the honest breakdown
+          of what actually matters when you are starting out:
+        </p>
+        <ul class="gear-list">
+          <li><strong>Longboard or foam board</strong> — stability beats looking cool every time</li>
+          <li><strong>Wetsuit</strong> — match the thickness to your water temperature</li>
+          <li><strong>Leash</strong> — keeps the board attached so it does not hit other surfers</li>
+          <li><strong>Wax</strong> — you need traction or you will slide straight off</li>
+          <li><strong>Reef-safe sunscreen</strong> — you will be out there longer than you think</li>
+        </ul>
+        <p>
+          Most importantly: take a lesson before paddling out on your own.
+          Understanding rip currents, surf etiquette, and how to read a break
+          will save you a lot of trouble and keep you safe.
+        </p>
+        <!-- CTA to app -->
+        <a href="app.html" class="inline-btn">Check Surf Conditions Near You &rarr;</a>
+      </div>
+
+      <div class="col-image">
+        <img
+          src="https://images.unsplash.com/photo-1530870110042-98b2cb110834?w=600&q=80"
+          alt="Surfboards lined up on the beach"
+          class="surf-img">
+        <p class="img-caption">The right board makes all the difference.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- YOUTUBE VIDEO SECTION -->
+  <div id="video" class="content-section alt-section">
+    <h2 class="section-heading">Watch: The Best Waves on Earth</h2>
+    <div class="section-rule"></div>
+
+    <p class="section-intro">
+      If you have never seen what world-class surf actually looks like, this puts
+      it in perspective. These are the kinds of waves I dream about on flat days.
+    </p>
+
+    <div class="video-wrapper">
+      <!-- Embedded YouTube video - works when hosted online -->
+      <iframe
+        width="100%"
+        height="500"
+        src="https://www.youtube.com/embed/XhBKHmAjwCg"
+        title="Best Waves in the World - Surfing"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+
+  <!-- TABLEAU SECTION -->
+  <div id="markets" class="content-section">
+    <h2 class="section-heading">Markets &amp; Waves</h2>
+    <div class="section-rule"></div>
+
+    <p class="section-intro">
+      Just like I read buoy reports and swell charts before paddling out, I spend
+      time reading global markets before making any moves. Below is a live
+      interactive look at global stock market performance — the same kind of
+      data I analyze as part of my finance work at BYU.
+    </p>
+
+    <!-- Tableau embed using iframe method - most reliable for GitHub Pages -->
+    <div id="tableau-container">
+      <iframe
+        src="https://public.tableau.com/views/StockMarketDashboard/GlobalStockMarketIndices?:showVizHome=no&:embed=true&:toolbar=yes&:animate_transition=yes"
+        width="100%"
+        height="580"
+        frameborder="0"
+        scrolling="no"
+        style="border: none;">
+      </iframe>
+    </div>
+
+    <p class="tableau-note">
+      Interactive chart — click, hover, and filter to explore global market data.
+      Data sourced from Tableau Public.
+    </p>
+
+    <!-- CTA linking to portfolio -->
+    <div style="text-align: center; margin-top: 32px;">
+      <a href="index.html" class="cta-btn">View My Full Portfolio &rarr;</a>
+    </div>
+  </div>
+
+  <!-- APP PROMO SECTION -->
+  <div id="app-promo" class="content-section alt-section">
+    <h2 class="section-heading">Find Your Next Wave</h2>
+    <div class="section-rule"></div>
+    <p class="section-intro">
+      I built a surf conditions calculator that uses real weather and swell data
+      to recommend the best surf spot near any city. Enter your location and
+      it will tell you what the ocean is doing right now.
+    </p>
+    <a href="app.html" class="cta-btn">Try the Surf Conditions App &rarr;</a>
+  </div>
+
+  <!-- FOOTER -->
+  <div id="page-footer">
+    <p>
+      &copy; 2025 Jacob Walton &nbsp;|&nbsp;
+      <a href="index.html">Portfolio</a> &nbsp;|&nbsp;
+      <a href="app.html">Surf App</a> &nbsp;|&nbsp;
+      <a href="#top">Back to Top</a>
+    </p>
+  </div>
+
+</body>
+</html>

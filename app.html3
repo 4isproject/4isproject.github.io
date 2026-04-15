@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surf Conditions Finder | Jacob Walton</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    /* ── THEME VARIABLES (matching index.html exactly) ── */
+    :root {
+      --navy:       #0d1b2a;
+      --navy-mid:   #1b2d42;
+      --navy-light: #1b3a5c;
+      --gold:       #c9a84c;
+      --gold-light: #e8c97a;
+      --off-white:  #f8f5f0;
+      --white:      #ffffff;
+      --text-mid:   #34495e;
+      --text-muted: #6c7a89;
+      --border:     #dde3ea;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Source Sans 3', Helvetica, sans-serif;
+      background-color: var(--off-white);
+      color: var(--navy);
+      min-height: 100vh;
+    }
+
+    /* ── NAVBAR (matches index.html) ── */
+    #navbar {
+      background-color: var(--navy);
+      border-bottom: 2px solid var(--gold);
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    #navbar .brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.5px;
+      text-decoration: none;
+    }
+
+    #navbar a {
+      color: #ccd6e0;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-left: 24px;
+    }
+
+    #navbar a:hover { color: var(--gold); }
+
+    /* ── HERO ── */
+    #hero {
+      background-color: var(--navy);
+      background-image: linear-gradient(135deg, #0d1b2a 60%, #1b3a5c 100%);
+      padding: 80px 24px 64px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #hero::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -80px;
+      width: 380px; height: 380px;
+      border-radius: 50%;
+      background: rgba(201,168,76,0.07);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
+    #hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.4rem;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+
+    #hero h1 span { color: var(--gold); }
+
+    #hero p.sub {
+      font-size: 1.1rem;
+      color: #a8c0d6;
+      font-weight: 300;
+      max-width: 480px;
+      margin: 0 auto 0;
+      line-height: 1.7;
+    }
+
+    /* ── MAIN CONTENT ── */
+    #app-container {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 52px 24px 80px;
+    }
+
+    /* ── SEARCH CARD ── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--gold);
+      border-radius: 2px;
+      padding: 36px;
+      margin-bottom: 28px;
+    }
+
+    .card-label {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    #location-input {
+      width: 100%;
+      padding: 13px 16px;
+      font-size: 16px;
+      font-family: 'Source Sans 3', sans-serif;
+      background: var(--off-white);
+      border: 1.5px solid var(--border);
+      border-radius: 2px;
+      color: var(--navy);
+      margin-bottom: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    #location-input:focus { border-color: var(--gold); }
+    #location-input::placeholder { color: var(--text-muted); }
+
+    #search-btn {
+      width: 100%;
+      padding: 14px;
+      background-color: var(--gold);
+      color: var(--navy);
+      border: none;
+      border-radius: 2px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    #search-btn:hover { background-color: var(--gold-light); }
+    #search-btn:disabled { background-color: var(--border); color: var(--text-muted); cursor: not-allowed; }
+
+    /* ── QUICK PICKS ── */
+    #quick-picks { margin-top: 20px; }
+
+    #quick-picks p {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .quick-btn {
+      display: inline-block;
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      color: var(--navy);
+      font-size: 13px;
+      padding: 6px 16px;
+      border-radius: 2px;
+      margin: 4px 4px 4px 0;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Source Sans 3', sans-serif;
+      font-weight: 600;
+    }
+
+    .quick-btn:hover {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--navy);
+    }
+
+    /* ── LOADING ── */
+    #loading {
+      display: none;
+      text-align: center;
+      padding: 48px;
+    }
+
+    .wave-loader {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .wave-bar {
+      width: 5px;
+      height: 32px;
+      background: var(--gold);
+      border-radius: 2px;
+      animation: wavePulse 1.2s ease-in-out infinite;
+    }
+
+    .wave-bar:nth-child(2) { animation-delay: 0.15s; }
+    .wave-bar:nth-child(3) { animation-delay: 0.3s; }
+    .wave-bar:nth-child(4) { animation-delay: 0.45s; }
+    .wave-bar:nth-child(5) { animation-delay: 0.6s; }
+
+    @keyframes wavePulse {
+      0%, 100% { transform: scaleY(0.4); opacity: 0.4; }
+      50%       { transform: scaleY(1);   opacity: 1;   }
+    }
+
+    #loading p { color: var(--text-muted); font-size: 14px; }
+
+    /* ── ERROR ── */
+    #error-box {
+      display: none;
+      background: #fdf2f2;
+      border: 1px solid #f5c6cb;
+      border-left: 4px solid #c0392b;
+      border-radius: 2px;
+      padding: 14px 18px;
+      color: #922b21;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    /* ── RESULTS ── */
+    #results { display: none; }
+
+    /* ── VERDICT BANNER ── */
+    #verdict-banner {
+      border-radius: 2px;
+      padding: 36px;
+      text-align: center;
+      margin-bottom: 24px;
+      border: 1px solid var(--border);
+    }
+
+    #verdict-banner.good { background: #eafaf1; border-top: 4px solid #27ae60; }
+    #verdict-banner.ok   { background: #fefbec; border-top: 4px solid var(--gold); }
+    #verdict-banner.bad  { background: #fdf2f2; border-top: 4px solid #c0392b; }
+
+    .verdict-icon { font-size: 48px; margin-bottom: 10px; }
+
+    .verdict-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    #verdict-banner.good .verdict-label { color: #1e8449; }
+    #verdict-banner.ok   .verdict-label { color: #b7770d; }
+    #verdict-banner.bad  .verdict-label { color: #922b21; }
+
+    .verdict-sub { font-size: 15px; color: var(--text-mid); line-height: 1.6; }
+
+    /* ── CONDITIONS GRID ── */
+    #conditions-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .condition-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 20px 14px;
+      text-align: center;
+    }
+
+    .condition-icon { font-size: 24px; margin-bottom: 6px; }
+
+    .condition-label {
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    .condition-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1;
+    }
+
+    .condition-unit { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
+
+    .condition-rating {
+      margin-top: 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+
+    .rating-good { background: #eafaf1; color: #1e8449; }
+    .rating-ok   { background: #fefbec; color: #b7770d; }
+    .rating-bad  { background: #fdf2f2; color: #922b21; }
+
+    /* ── SPOT RECOMMENDATION ── */
+    #spot-rec {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--gold);
+      border-radius: 2px;
+      padding: 28px;
+      margin-bottom: 24px;
+    }
+
+    #spot-rec h3 {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .spot-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .spot-location {
+      font-size: 13px;
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .spot-desc {
+      font-size: 15px;
+      color: var(--text-mid);
+      line-height: 1.75;
+    }
+
+    .spot-tags { margin-top: 14px; }
+
+    .spot-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 2px;
+      margin: 3px 3px 3px 0;
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      color: var(--navy);
+    }
+
+    /* ── TIPS ── */
+    #surf-tips {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--gold);
+      border-radius: 2px;
+      padding: 24px 28px;
+      margin-bottom: 28px;
+    }
+
+    #surf-tips h3 {
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    #tips-list { list-style: none; padding: 0; }
+
+    #tips-list li {
+      font-size: 14px;
+      color: var(--text-mid);
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border);
+      line-height: 1.6;
+    }
+
+    #tips-list li:last-child { border-bottom: none; }
+    #tips-list li::before { content: '→ '; color: var(--gold); font-weight: 700; }
+
+    /* ── SEARCH AGAIN ── */
+    #search-again { text-align: center; }
+
+    #search-again button {
+      background: transparent;
+      border: 1.5px solid var(--border);
+      color: var(--text-muted);
+      padding: 12px 28px;
+      border-radius: 2px;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    #search-again button:hover {
+      border-color: var(--gold);
+      color: var(--navy);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background-color: var(--navy);
+      border-top: 2px solid var(--gold);
+      color: #a8c0d6;
+      padding: 32px;
+      text-align: center;
+      margin-top: 0;
+    }
+
+    footer p { font-size: 13px; }
+    footer a { color: #a8c0d6; text-decoration: none; font-weight: 600; }
+    footer a:hover { color: var(--gold); }
+
+    @media (max-width: 600px) {
+      #conditions-grid { grid-template-columns: repeat(2, 1fr); }
+      #hero h1 { font-size: 2.4rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <div id="navbar">
+    <a href="index.html" class="brand">Jacob Walton</a>
+    <div>
+      <a href="surf.html">Surf Page</a>
+      <a href="index.html">Portfolio</a>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <div id="hero">
+    <p class="hero-eyebrow">Web App</p>
+    <h1>Surf <span>Conditions</span><br>Finder</h1>
+    <p class="sub">Enter any coastal city to get real weather data and a personalized surf spot recommendation.</p>
+  </div>
+
+  <!-- APP -->
+  <div id="app-container">
+
+    <!-- SEARCH CARD -->
+    <div class="card">
+      <label class="card-label" for="location-input">Enter a coastal city</label>
+      <input
+        type="text"
+        id="location-input"
+        placeholder="e.g. San Diego, Honolulu, Nosara..."
+        autocomplete="off">
+      <button id="search-btn" onclick="checkConditions()">
+        Check Surf Conditions
+      </button>
+
+      <div id="quick-picks">
+        <p>Quick picks</p>
+        <button class="quick-btn" onclick="quickSearch('San Diego, California')">San Diego</button>
+        <button class="quick-btn" onclick="quickSearch('Honolulu, Hawaii')">Honolulu</button>
+        <button class="quick-btn" onclick="quickSearch('Nosara, Costa Rica')">Nosara</button>
+        <button class="quick-btn" onclick="quickSearch('Kuta, Bali')">Bali</button>
+        <button class="quick-btn" onclick="quickSearch('Santa Cruz, California')">Santa Cruz</button>
+        <button class="quick-btn" onclick="quickSearch('Gold Coast, Australia')">Gold Coast</button>
+      </div>
+    </div>
+
+    <!-- ERROR -->
+    <div id="error-box"></div>
+
+    <!-- LOADING -->
+    <div id="loading">
+      <div class="wave-loader">
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+        <div class="wave-bar"></div>
+      </div>
+      <p>Reading the ocean...</p>
+    </div>
+
+    <!-- RESULTS -->
+    <div id="results">
+
+      <div id="verdict-banner">
+        <div class="verdict-icon" id="verdict-icon"></div>
+        <div class="verdict-label" id="verdict-label"></div>
+        <div class="verdict-sub" id="verdict-sub"></div>
+      </div>
+
+      <div id="conditions-grid">
+        <div class="condition-card">
+          <div class="condition-icon">🌡️</div>
+          <div class="condition-label">Temperature</div>
+          <div class="condition-value" id="val-temp">--</div>
+          <div class="condition-unit">°F</div>
+          <div class="condition-rating" id="rating-temp"></div>
+        </div>
+        <div class="condition-card">
+          <div class="condition-icon">💨</div>
+          <div class="condition-label">Wind Speed</div>
+          <div class="condition-value" id="val-wind">--</div>
+          <div class="condition-unit">mph</div>
+          <div class="condition-rating" id="rating-wind"></div>
+        </div>
+        <div class="condition-card">
+          <div class="condition-icon">🌊</div>
+          <div class="condition-label">Swell / Waves</div>
+          <div class="condition-value" id="val-swell" style="font-size:16px; padding-top:4px;">--</div>
+          <div class="condition-unit">conditions</div>
+          <div class="condition-rating" id="rating-swell"></div>
+        </div>
+        <div class="condition-card">
+          <div class="condition-icon">🧭</div>
+          <div class="condition-label">Wind Direction</div>
+          <div class="condition-value" id="val-winddir">--</div>
+          <div class="condition-unit">direction</div>
+          <div class="condition-rating" id="rating-winddir"></div>
+        </div>
+        <div class="condition-card">
+          <div class="condition-icon">☁️</div>
+          <div class="condition-label">Weather</div>
+          <div class="condition-value" id="val-weather" style="font-size:15px; padding-top:4px;">--</div>
+          <div class="condition-unit">conditions</div>
+          <div class="condition-rating" id="rating-weather"></div>
+        </div>
+        <div class="condition-card">
+          <div class="condition-icon"><i class="bi bi-graph-up"></i></div>
+          <div class="condition-label">Overall Score</div>
+          <div class="condition-value" id="val-score">--</div>
+          <div class="condition-unit">out of 10</div>
+          <div class="condition-rating" id="rating-score"></div>
+        </div>
+      </div>
+
+      <div id="spot-rec">
+        <h3>Recommended Spot</h3>
+        <div class="spot-name" id="spot-name">—</div>
+        <div class="spot-location" id="spot-location"></div>
+        <div class="spot-desc" id="spot-desc"></div>
+        <div class="spot-tags" id="spot-tags"></div>
+      </div>
+
+      <div id="surf-tips">
+        <h3>Tips for Today</h3>
+        <ul id="tips-list"></ul>
+      </div>
+
+      <div id="search-again">
+        <button onclick="resetApp()">Check Another Location</button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>
+      Weather data powered by <a href="https://open-meteo.com" target="_blank">Open-Meteo</a> (free, no API key required) &nbsp;|&nbsp;
+      <a href="surf.html">Surf Page</a> &nbsp;|&nbsp;
+      <a href="index.html">Portfolio</a>
+    </p>
+  </footer>
+
+  <script>
+    const SURF_SPOTS = {
+      "san diego": [
+        { name: "Black's Beach", location: "La Jolla, San Diego", desc: "A powerful reef break below the cliffs of Torrey Pines. Best on a south swell with light offshore winds. World-class waves when conditions align.", tags: ["Reef Break", "Advanced", "South Swell"], windPref: "offshore" },
+        { name: "Windansea Beach", location: "La Jolla, San Diego", desc: "A classic San Diego reef break with a consistent, punchy shore break. Popular with locals and one of the most iconic spots in Southern California.", tags: ["Reef Break", "Intermediate", "Year-Round"], windPref: "offshore" },
+        { name: "Ocean Beach Pier", location: "Ocean Beach, San Diego", desc: "A forgiving beach break that works on most swells. Great for intermediate surfers and uncrowded on weekday mornings.", tags: ["Beach Break", "All Levels", "Consistent"], windPref: "any" }
+      ],
+      "honolulu": [
+        { name: "Diamond Head", location: "Diamond Head, Oahu", desc: "A long, mellow right-hander that wraps around the base of Diamond Head crater. Perfect for longboarders and intermediate surfers.", tags: ["Right-Hander", "Intermediate", "Longboard Friendly"], windPref: "offshore" },
+        { name: "Canoes", location: "Waikiki, Oahu", desc: "The most famous beginner wave in Hawaii. Long, gentle rollers in the heart of Waikiki. If you can't surf here, you can't surf.", tags: ["Beach Break", "Beginner", "Iconic"], windPref: "any" },
+        { name: "Ala Moana Bowls", location: "Ala Moana, Oahu", desc: "A powerful, hollow left-hander near the harbor. Fast, technical, and best in south swells.", tags: ["Left-Hander", "Advanced", "South Swell"], windPref: "offshore" }
+      ],
+      "nosara": [
+        { name: "Playa Guiones", location: "Nosara, Costa Rica", desc: "One of the most consistent beach breaks in Central America. Miles of uncrowded waves with a forgiving sandy bottom.", tags: ["Beach Break", "All Levels", "Consistent"], windPref: "any" },
+        { name: "Playa Pelada", location: "Nosara, Costa Rica", desc: "A shorter, more powerful wave with a rocky bottom. Delivers punchy barrels on solid swells.", tags: ["Reef Break", "Intermediate+", "Less Crowded"], windPref: "offshore" }
+      ],
+      "bali": [
+        { name: "Uluwatu", location: "Bukit Peninsula, Bali", desc: "A world-class left-hander breaking over shallow reef. Multiple sections offer barrels and walls for experienced surfers. One of the best waves on the planet.", tags: ["Left-Hander", "Advanced", "World-Class"], windPref: "offshore" },
+        { name: "Padang Padang", location: "Bukit Peninsula, Bali", desc: "A heavy, short barrel break. Only breaks on bigger swells but when it does, it's perfection.", tags: ["Barrel", "Advanced", "Big Swell Only"], windPref: "offshore" },
+        { name: "Kuta Beach", location: "Kuta, Bali", desc: "Long, gentle beach break waves ideal for beginners. The birthplace of Indonesian surf culture.", tags: ["Beach Break", "Beginner", "Iconic"], windPref: "any" }
+      ],
+      "santa cruz": [
+        { name: "Steamer Lane", location: "Santa Cruz, California", desc: "The most famous wave in Northern California. Multiple reef breaks producing long walls and occasional barrels.", tags: ["Reef Break", "Intermediate+", "Iconic"], windPref: "offshore" },
+        { name: "Pleasure Point", location: "Santa Cruz, California", desc: "A long, peeling right-hander beloved by longboarders and shortboarders alike. Consistent and beautiful.", tags: ["Right-Hander", "All Levels", "Consistent"], windPref: "offshore" }
+      ],
+      "gold coast": [
+        { name: "Snapper Rocks", location: "Coolangatta, Gold Coast", desc: "The start of the famous Superbank — one of the longest sand-bottom point breaks in the world. World Surf League events held here.", tags: ["Point Break", "Advanced", "World-Class"], windPref: "offshore" },
+        { name: "Burleigh Heads", location: "Burleigh Heads, Gold Coast", desc: "A powerful right-hander wrapping around a rocky headland. Classic barrels on solid south swells.", tags: ["Right-Hander", "Advanced", "South Swell"], windPref: "offshore" }
+      ]
+    };
+
+    function getGenericSpots(city) {
+      return [
+        { name: "Local Beach Break", location: `Near ${city}`, desc: "Based on current conditions, a sheltered beach break is your best option today. Check with a local surf shop for the best nearby spots.", tags: ["Beach Break", "Check Locally"], windPref: "any" },
+        { name: "Nearest Point Break", location: `Near ${city}`, desc: "If there's a headland nearby, offshore winds today should clean up the swell nicely. Ask a local for recommendations.", tags: ["Point Break", "Ask Locally"], windPref: "offshore" }
+      ];
+    }
+
+    async function geocode(city) {
+      const url = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=en&format=json`;
+      const res = await fetch(url);
+      const data = await res.json();
+      if (!data.results || data.results.length === 0) throw new Error("Location not found");
+      return { lat: data.results[0].latitude, lon: data.results[0].longitude, name: data.results[0].name };
+    }
+
+    async function getWeather(lat, lon) {
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,wind_speed_10m,wind_direction_10m,weather_code&wind_speed_unit=mph&temperature_unit=fahrenheit&timezone=auto`;
+      const res = await fetch(url);
+      const data = await res.json();
+      return data.current;
+    }
+
+    function weatherCodeToText(code) {
+      if (code === 0) return "Clear Sky";
+      if (code <= 3) return "Partly Cloudy";
+      if (code <= 49) return "Foggy";
+      if (code <= 67) return "Rainy";
+      if (code <= 77) return "Snowy";
+      if (code <= 82) return "Showers";
+      return "Stormy";
+    }
+
+    function weatherCodeRating(code) {
+      if (code <= 3) return "good";
+      if (code <= 48) return "ok";
+      return "bad";
+    }
+
+    function degToCompass(deg) {
+      const dirs = ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
+      return dirs[Math.round(deg / 22.5) % 16];
+    }
+
+    function scoreConditions(wind, weatherCode, temp) {
+      let score = 5;
+      if (wind < 5) score += 2;
+      else if (wind < 12) score += 1;
+      else if (wind > 25) score -= 2;
+      else if (wind > 18) score -= 1;
+      if (weatherCode === 0) score += 2;
+      else if (weatherCode <= 3) score += 1;
+      else if (weatherCode >= 51) score -= 2;
+      else if (weatherCode >= 45) score -= 1;
+      if (temp >= 65 && temp <= 85) score += 1;
+      else if (temp < 45 || temp > 95) score -= 1;
+      return Math.max(1, Math.min(10, score));
+    }
+
+    function estimateSwell(lat, wind, weatherCode) {
+      const absLat = Math.abs(lat);
+      let base = "Moderate";
+      if (wind > 20 || (absLat > 30 && absLat < 60)) base = "Solid";
+      if (wind < 8 && weatherCode <= 3) base = "Clean & Glassy";
+      if (weatherCode >= 61) base = "Choppy / Storm Swell";
+      return base;
+    }
+
+    function swellRating(swell) {
+      if (swell.includes("Glassy") || swell.includes("Solid")) return "good";
+      if (swell.includes("Moderate")) return "ok";
+      return "bad";
+    }
+
+    function pickSpot(cityKey, wind, score) {
+      const spots = SURF_SPOTS[cityKey] || getGenericSpots(cityKey);
+      if (score >= 7) return spots.find(s => s.windPref === "offshore") || spots[0];
+      if (score >= 5) return spots.find(s => s.windPref === "any") || spots[0];
+      return spots[spots.length - 1];
+    }
+
+    function buildTips(wind, weatherCode, temp, score) {
+      const tips = [];
+      if (wind > 20) tips.push("High winds today — look for protected coves or paddle out early before conditions deteriorate");
+      if (wind < 8) tips.push("Light winds mean clean, glassy conditions — an ideal time to get in the water");
+      if (weatherCode >= 51) tips.push("Rain or storms in the forecast — be cautious of increased rip current activity");
+      if (temp < 60) tips.push("Chilly temps — a 3/2mm or 4/3mm wetsuit is recommended depending on water temperature");
+      if (temp > 80) tips.push("Hot day — apply reef-safe sunscreen every 90 minutes, even when overcast");
+      if (score >= 8) tips.push("Exceptional conditions today — get out early before the crowds arrive");
+      if (score <= 4) tips.push("Conditions are marginal — might be worth waiting for the next swell");
+      tips.push("Always check a trusted local surf report before paddling out");
+      tips.push("Respect surf etiquette: the surfer closest to the peak has right of way");
+      return tips.slice(0, 4);
+    }
+
+    function windRating(w) { return w < 10 ? "good" : w < 20 ? "ok" : "bad"; }
+    function tempRating(t) { return (t >= 60 && t <= 85) ? "good" : (t >= 50 || t <= 90) ? "ok" : "bad"; }
+    function ratingLabel(r) { return r === "good" ? "✓ Good" : r === "ok" ? "~ Fair" : "✗ Poor"; }
+
+    function setRating(el, rating) {
+      el.textContent = ratingLabel(rating);
+      el.className = "condition-rating rating-" + rating;
+    }
+
+    function findCityKey(name) {
+      const lower = name.toLowerCase();
+      for (const key of Object.keys(SURF_SPOTS)) {
+        if (lower.includes(key) || key.includes(lower.split(",")[0].trim())) return key;
+      }
+      return null;
+    }
+
+    async function checkConditions() {
+      const input = document.getElementById("location-input").value.trim();
+      if (!input) { showError("Please enter a city name."); return; }
+      showLoading(true);
+      hideError();
+      document.getElementById("results").style.display = "none";
+
+      try {
+        const loc = await geocode(input);
+        const weather = await getWeather(loc.lat, loc.lon);
+        const temp = Math.round(weather.temperature_2m);
+        const wind = Math.round(weather.wind_speed_10m);
+        const windDir = degToCompass(weather.wind_direction_10m);
+        const weatherText = weatherCodeToText(weather.weather_code);
+        const swell = estimateSwell(loc.lat, wind, weather.weather_code);
+        const score = scoreConditions(wind, weather.weather_code, temp);
+        const cityKey = findCityKey(loc.name) || findCityKey(input);
+        const spot = pickSpot(cityKey || input, wind, score);
+        const tips = buildTips(wind, weather.weather_code, temp, score);
+
+        document.getElementById("val-temp").textContent = temp;
+        document.getElementById("val-wind").textContent = wind;
+        document.getElementById("val-winddir").textContent = windDir;
+        document.getElementById("val-swell").textContent = swell;
+        document.getElementById("val-weather").textContent = weatherText;
+        document.getElementById("val-score").textContent = score;
+
+        setRating(document.getElementById("rating-temp"), tempRating(temp));
+        setRating(document.getElementById("rating-wind"), windRating(wind));
+        setRating(document.getElementById("rating-winddir"), wind < 15 ? "good" : "ok");
+        setRating(document.getElementById("rating-swell"), swellRating(swell));
+        setRating(document.getElementById("rating-weather"), weatherCodeRating(weather.weather_code));
+        setRating(document.getElementById("rating-score"), score >= 7 ? "good" : score >= 5 ? "ok" : "bad");
+
+        const banner = document.getElementById("verdict-banner");
+        const icon = document.getElementById("verdict-icon");
+        const label = document.getElementById("verdict-label");
+        const sub = document.getElementById("verdict-sub");
+
+        if (score >= 7) {
+          banner.className = "good";
+          icon.textContent = "🏄";
+          label.textContent = "Go Surf";
+          sub.textContent = `Conditions near ${loc.name} look great today. Score: ${score}/10 — get in the water.`;
+        } else if (score >= 5) {
+          banner.className = "ok";
+          icon.textContent = "🤙";
+          label.textContent = "Worth a Paddle";
+          sub.textContent = `Conditions near ${loc.name} are decent. Score: ${score}/10 — could be fun if you're up for it.`;
+        } else {
+          banner.className = "bad";
+          icon.textContent = "🌧️";
+          label.textContent = "Maybe Skip It";
+          sub.textContent = `Conditions near ${loc.name} are rough today. Score: ${score}/10 — might be better to wait.`;
+        }
+
+        document.getElementById("spot-name").textContent = spot.name;
+        document.getElementById("spot-location").textContent = spot.location;
+        document.getElementById("spot-desc").textContent = spot.desc;
+        document.getElementById("spot-tags").innerHTML = spot.tags.map(t => `<span class="spot-tag">${t}</span>`).join("");
+        document.getElementById("tips-list").innerHTML = tips.map(t => `<li>${t}</li>`).join("");
+
+        showLoading(false);
+        document.getElementById("results").style.display = "block";
+        document.getElementById("results").scrollIntoView({ behavior: "smooth" });
+
+      } catch (err) {
+        showLoading(false);
+        showError("Couldn't find that location. Try a more specific city name (e.g. 'San Diego, California').");
+      }
+    }
+
+    function quickSearch(city) {
+      document.getElementById("location-input").value = city;
+      checkConditions();
+    }
+
+    function resetApp() {
+      document.getElementById("results").style.display = "none";
+      document.getElementById("location-input").value = "";
+      document.getElementById("location-input").focus();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function showLoading(show) {
+      document.getElementById("loading").style.display = show ? "block" : "none";
+      document.getElementById("search-btn").disabled = show;
+    }
+
+    function showError(msg) {
+      const el = document.getElementById("error-box");
+      el.textContent = msg;
+      el.style.display = "block";
+    }
+
+    function hideError() {
+      document.getElementById("error-box").style.display = "none";
+    }
+
+    document.getElementById("location-input").addEventListener("keydown", function(e) {
+      if (e.key === "Enter") checkConditions();
+    });
+  </script>
+
+</body>
+</html>

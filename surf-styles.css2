@@ -1,0 +1,430 @@
+/* =====================================================
+   surf-styles.css
+   Custom from-scratch stylesheet for The Surf Life page
+   Theme: Navy + Gold — matches portfolio site
+   No Bootstrap used anywhere in this file or surf.html
+   ===================================================== */
+
+/* ---- CSS VARIABLES (matching index.html palette) ---- */
+:root {
+  --navy:        #0d1b2a;
+  --navy-mid:    #1b2d42;
+  --navy-light:  #1b3a5c;
+  --gold:        #c9a84c;
+  --gold-light:  #e8c97a;
+  --off-white:   #f8f5f0;
+  --white:       #ffffff;
+  --text-dark:   #0d1b2a;
+  --text-mid:    #34495e;
+  --text-muted:  #6c7a89;
+  --border:      #dde3ea;
+}
+
+/* ---- RESET ---- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---- BODY ---- */
+/* font-family specified here */
+body {
+  font-family: 'Source Sans 3', Helvetica, sans-serif;
+  font-size: 16px;
+  /* font color specified here */
+  color: var(--text-dark);
+  background-color: var(--off-white);
+}
+
+/* ---- TOP NAV ---- */
+/* div used for positioning and styling */
+#topnav {
+  background-color: var(--navy);
+  border-bottom: 2px solid var(--gold);
+  padding: 14px 40px;
+  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#topnav a {
+  /* font color on nav links */
+  color: #ccd6e0;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+#topnav a:hover {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+#nav-brand {
+  /* font-family on brand */
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--gold);
+  letter-spacing: 0.5px;
+}
+
+/* ---- HERO ---- */
+/* Custom background color requirement met here */
+#hero {
+  background-color: var(--navy);
+  background-image: linear-gradient(135deg, #0d1b2a 60%, #1b3a5c 100%);
+  width: 100%;
+  height: 480px;
+  display: block;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+/* Decorative circle - same style as index.html hero */
+#hero::before {
+  content: '';
+  position: absolute;
+  top: -60px;
+  right: -80px;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: rgba(201, 168, 76, 0.07);
+  pointer-events: none;
+}
+
+#hero-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+}
+
+#hero-eyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  /* font color for eyebrow */
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+
+#hero h1 {
+  /* font-family for hero heading */
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 72px;
+  font-weight: 900;
+  /* font color for hero h1 */
+  color: var(--white);
+  line-height: 1.05;
+  margin-bottom: 16px;
+}
+
+#hero-sub {
+  font-size: 18px;
+  font-weight: 300;
+  color: #a8c0d6;
+  margin-bottom: 32px;
+  letter-spacing: 0.5px;
+}
+
+.hero-btn {
+  display: inline-block;
+  background-color: var(--gold);
+  color: var(--navy);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 13px 32px;
+  border-radius: 2px;
+  transition: background-color 0.2s;
+}
+
+.hero-btn:hover {
+  background-color: var(--gold-light);
+  color: var(--navy);
+  text-decoration: none;
+}
+
+/* ---- PAGE NAV (on-page anchors) ---- */
+/* div used for positioning */
+#page-nav {
+  background-color: var(--navy-mid);
+  padding: 13px 40px;
+  text-align: center;
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+}
+
+#page-nav a {
+  color: #ccd6e0;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin: 0 16px;
+  display: inline;
+}
+
+#page-nav a:hover {
+  color: var(--gold);
+}
+
+/* ---- CONTENT SECTIONS (div for layout/positioning) ---- */
+.content-section {
+  width: 100%;
+  padding: 72px 10%;
+  display: block;
+}
+
+/* Alternating section background */
+.alt-section {
+  background-color: var(--white);
+}
+
+/* ---- SECTION HEADINGS ---- */
+.section-heading {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+
+/* Gold rule — same as index.html */
+.section-rule {
+  width: 48px;
+  height: 3px;
+  background-color: var(--gold);
+  margin-bottom: 32px;
+  border: none;
+  display: block;
+}
+
+.section-intro {
+  font-size: 17px;
+  color: var(--text-mid);
+  line-height: 1.8;
+  max-width: 720px;
+  margin-bottom: 32px;
+}
+
+/* ---- TWO COLUMN LAYOUT ---- */
+.two-col {
+  display: flex;
+  gap: 48px;
+  align-items: flex-start;
+}
+
+.col-text {
+  flex: 1;
+}
+
+.col-text p {
+  font-size: 16px;
+  color: var(--text-mid);
+  line-height: 1.9;
+  margin-bottom: 18px;
+}
+
+.col-image {
+  flex: 1;
+}
+
+/* ---- IMAGES ---- */
+.surf-img {
+  width: 100%;
+  display: block;
+  border: 2px solid var(--border);
+  border-radius: 2px;
+  padding: 4px;
+  background-color: var(--white);
+}
+
+.img-caption {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* ---- SPOTS LIST (ordered list with nested unordered) ---- */
+.spots-list {
+  list-style: none;
+  padding-left: 0;
+  counter-reset: spots;
+}
+
+.spots-list > li {
+  counter-increment: spots;
+  margin-bottom: 28px;
+  padding: 24px 28px;
+  background-color: var(--white);
+  border-left: 4px solid var(--gold);
+  border-top: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.spots-list > li::before {
+  content: "0" counter(spots);
+  display: block;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 32px;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+/* Nested unordered lists inside the ordered list */
+.spots-list > li > ul {
+  list-style: disc;
+  padding-left: 20px;
+  margin-top: 10px;
+}
+
+.spots-list > li > ul > li {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-mid);
+  margin-bottom: 5px;
+  line-height: 1.6;
+}
+
+/* ---- GEAR LIST ---- */
+.gear-list {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 20px;
+}
+
+.gear-list li {
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  background-color: var(--off-white);
+  border-left: 3px solid var(--gold);
+  font-size: 15px;
+  color: var(--text-mid);
+  line-height: 1.6;
+}
+
+/* ---- VIDEO WRAPPER ---- */
+.video-wrapper {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  border: 2px solid var(--navy);
+  border-radius: 2px;
+  overflow: hidden;
+  display: block;
+}
+
+/* ---- TABLEAU CONTAINER ---- */
+#tableau-container {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--gold);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 14px;
+  padding: 8px;
+  background-color: var(--white);
+}
+
+.tableau-note {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-style: italic;
+  text-align: center;
+  line-height: 1.7;
+}
+
+/* ---- APP PROMO SECTION ---- */
+#app-promo {
+  text-align: center;
+}
+
+.cta-btn {
+  display: inline-block;
+  background-color: var(--gold);
+  color: var(--navy);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 14px 36px;
+  border-radius: 2px;
+  margin-top: 8px;
+  transition: background-color 0.2s;
+}
+
+.cta-btn:hover {
+  background-color: var(--gold-light);
+  color: var(--navy);
+}
+
+/* ---- FOOTER ---- */
+#page-footer {
+  background-color: var(--navy);
+  border-top: 2px solid var(--gold);
+  padding: 32px 40px;
+  text-align: center;
+  display: block;
+}
+
+#page-footer p {
+  font-size: 13px;
+  color: #a8c0d6;
+}
+
+#page-footer a {
+  color: #a8c0d6;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+#page-footer a:hover {
+  color: var(--gold);
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 768px) {
+  .two-col {
+    flex-direction: column;
+  }
+
+  #hero h1 {
+    font-size: 48px;
+  }
+
+  .content-section {
+    padding: 48px 6%;
+  }
+
+  #page-nav a {
+    margin: 0 8px;
+  }
+}
+
+/* =====================================================
+   End of surf-styles.css
+   ===================================================== */
